@@ -20,7 +20,7 @@ export const loadSongLibrary = (
       .catch(error =>
         store.dispatch({
           type: 'AppError',
-          payload: `Could not load library ${error}`
+          payload: `Could not load library: ${error}`
         })
       )
       .then(() => store.dispatch({ type: 'LoadSongLibraryDone' }));
