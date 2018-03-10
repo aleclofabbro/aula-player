@@ -3,7 +3,7 @@ import { MiddlewareHelper } from '../types/redux-types-helpers';
 import { State } from './../reducers/aulaPlayerApp';
 import { Song } from './../types/models';
 
-type SongLibraryProvider = () => Promise<Song[]>;
+export type SongLibraryProvider = () => Promise<Song[]>;
 type LoadSongMW = MiddlewareHelper<
   State,
   LoadSongLibrary,
