@@ -1,2 +1,4 @@
 import { createStore } from 'redux';
-export const store = createStore(aulaPlayerApp);
+import { aulaPlayerApp, State } from './reducers/aulaPlayerApp';
+
+export const store = createStore<State>(aulaPlayerApp);
