@@ -1,3 +1,4 @@
+import { Reducer } from 'redux';
 import { Play, SelectSong, SongLibrary, Stop } from '../types/actions';
 import { Song } from './../types/models';
 
@@ -18,7 +19,7 @@ const init: SongsState = {
   playing: false,
 };
 
-export const songs = (state: SongsState = init, action: Actions): SongsState => {
+export const songs: Reducer<SongsState> = (state: SongsState = init, action: Actions) => {
   switch (action.type) {
     case 'SongLibrary':
       return { ...state, library: action.payload };
