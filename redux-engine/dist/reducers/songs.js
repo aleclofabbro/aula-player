@@ -4,6 +4,7 @@ const init = {
     library: [],
     selected: null,
     playing: false,
+    loadingLibrary: true
 };
 exports.songs = (state = init, action) => {
     switch (action.type) {
@@ -15,6 +16,10 @@ exports.songs = (state = init, action) => {
             return Object.assign({}, state, { playing: true });
         case 'Stop':
             return Object.assign({}, state, { playing: false });
+        case 'LoadSongLibrary':
+            return Object.assign({}, state, { loadingLibrary: true });
+        case 'LoadSongLibraryDone':
+            return Object.assign({}, state, { loadingLibrary: false });
         default:
             return state;
     }
