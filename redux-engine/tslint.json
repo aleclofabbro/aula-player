@@ -20,7 +20,6 @@
     "trailing-comma": [ // https://palantir.github.io/tslint/rules/trailing-comma/
       true,
       {
-        "multiline": "always",
         "singleline": "never"
       }
     ],

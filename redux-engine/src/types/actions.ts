@@ -7,6 +7,9 @@ export interface ActionP<T extends string, P> extends Action<T> {
   payload: P;
 }
 
+export type AppError = ActionP<'AppError', string>;
+
+export type LoadSongLibraryDone = Action<'LoadSongLibraryDone'>;
 export type LoadSongLibrary = Action<'LoadSongLibrary'>;
 export type SongLibrary = ActionP<'SongLibrary', Song[]>;
 
