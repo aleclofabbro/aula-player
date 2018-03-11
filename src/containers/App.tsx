@@ -5,13 +5,15 @@ import { App as AppView, Props, Actions, State } from '../components/App';
 import { Song } from '../redux-engine/src/types/models';
 
 const mapStateToProps: MapStateToProps<State, {}, GlobalState> = state => {
+  const selectedSongId = state.songs.selected;
   return {
     library: {
       songs: state.songs.library,
+      currentSongId: selectedSongId && selectedSongId.id,
     },
     player: {
       playing: state.status.songPlaying,
-      song: state.songs.selected,
+      song: selectedSongId,
       time: state.status.playTime,
       songLenght: state.status.songLenght
     },
@@ -26,7 +28,9 @@ const mapDispatchToProps: MapDispatchToProps<Actions, {}> = dispatch => {
     },
     player: {
       play: () => dispatch(actionCreators.play()),
-      stop: () => dispatch(actionCreators.stop())
+      stop: () => dispatch(actionCreators.stop()),
+      setTime: (time: number) => dispatch(actionCreators.setPlayTime(time)),
+      setSongLenght: (time: number) => dispatch(actionCreators.setSongLenght(time))
     }
   };
 };

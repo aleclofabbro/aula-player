@@ -1,5 +1,13 @@
 import { Reducer } from 'redux';
-import { LoadSongLibrary, LoadSongLibraryDone, Play, SetPlayTime, SetSongLenght, Stop } from '../types/actions';
+import {
+  LoadSongLibrary,
+  LoadSongLibraryDone,
+  Play,
+  SelectSong,
+  SetPlayTime,
+  SetSongLenght,
+  Stop
+} from '../types/actions';
 
 export interface StatusState {
   songPlaying: boolean;
@@ -13,7 +21,8 @@ type Actions =
   | LoadSongLibrary
   | LoadSongLibraryDone
   | SetPlayTime
-  | SetSongLenght;
+  | SetSongLenght
+  | SelectSong;
 
 const init: StatusState = {
   songPlaying: false,
@@ -36,6 +45,8 @@ export const status: Reducer<StatusState> = (state: StatusState = init, action: 
       return { ...state, playTime: action.payload };
     case 'SetSongLenght':
       return { ...state, songLenght: action.payload };
+    case 'SelectSong':
+      return { ...state, playTime: 0 };
     default:
       return state;
   }
