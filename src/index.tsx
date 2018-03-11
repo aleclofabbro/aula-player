@@ -10,19 +10,19 @@ const store = storeFactory({
     new Promise((resolve) => setTimeout(() => resolve([
       {
         id: 'id1',
-        title: 'title1',
+        title: 'symphony40',
         imgUrl: 'imgUrl1',
-        author: 'author1',
-        songUrl: 'songUrl1'
+        author: 'mozart',
+        songUrl: 'https://www.mfiles.co.uk/mp3-downloads/mozart-symphony40-1.mp3'
       },
       {
         id: 'id2',
-        title: 'title2',
+        title: 'Symphony5',
         imgUrl: 'imgUrl2',
-        author: 'author2',
-        songUrl: 'songUrl2'
+        author: 'Beethoven',
+        songUrl: 'https://www.mfiles.co.uk/mp3-downloads/Beethoven-Symphony5-1.mp3'
       }
-    ]),                                 2000))
+    ]),                                 500))
 });
 
 ReactDOM.render(

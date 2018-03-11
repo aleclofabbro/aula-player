@@ -14,6 +14,8 @@ export interface State {
 export interface Actions {
   play: () => void;
   stop: () => void;
+  setTime: (time: number) => void;
+  setSongLenght: (time: number) => void;
 }
 
 export type Props = Actions & State;
@@ -24,9 +26,31 @@ const paperStyle = {
   display: 'inline-block',
 };
 export const Player: StatelessComponent<Props> =  (props) => {
-  const { song, playing, songLenght, time, play, stop} = props;
+  const {
+    song,
+    playing,
+    songLenght,
+    time,
+    play,
+    stop,
+    setTime ,
+    setSongLenght
+  } = props;
   const playTimeRatio = songLenght && time / songLenght;
   const togglePlay = playing ? stop : play;
+  const audioElementRef = (elem: HTMLAudioElement) => {
+    return elem && (playing ? elem.play() : elem.pause());
+  };
+  const timeUpdate = (ev: React.SyntheticEvent<HTMLAudioElement>) => {
+    const currTime = ev.currentTarget.currentTime;
+    if (currTime - time >= 1) {
+      setTime(currTime);
+    }
+  };
+  const formattedTime = `${Math.floor(time / 60)}: ${Math.floor(time % 60)}`;
+  const loadedMetadata = (ev: React.SyntheticEvent<HTMLAudioElement>) => {
+    setSongLenght(ev.currentTarget.duration);
+  };
   return (
     <Paper style={paperStyle} zDepth={1} rounded={false}>
     {
@@ -37,7 +61,15 @@ export const Player: StatelessComponent<Props> =  (props) => {
               <ListItem
                 leftAvatar={<span onClick={togglePlay}>{playing ? 'stop' : 'play'}</span>}
                 primaryText={<Slider value={playTimeRatio} />}
+                rightAvatar={<span>{formattedTime}</span>}
               />
+            <audio
+              src={song.songUrl}
+              autoPlay={true}
+              ref={audioElementRef}
+              onTimeUpdate={timeUpdate}
+              onLoadedMetadata={loadedMetadata}
+            />
           </div>
         )
         : null
