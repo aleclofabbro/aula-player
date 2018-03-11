@@ -1,10 +1,10 @@
 import { StatelessComponent } from 'react';
-import Avatar from 'material-ui/Avatar';
-import { List, ListItem } from 'material-ui/List';
+import { ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import { Song } from '../redux-engine/src/types/models';
 import * as React from 'react';
-import { Slider, Paper } from 'material-ui';
+import { Slider, Paper, FloatingActionButton } from 'material-ui';
+
 export interface State {
   song: Song | null;
   playing: boolean;
@@ -38,7 +38,9 @@ export const Player: StatelessComponent<Props> =  (props) => {
   } = props;
   const playTimeRatio = songLenght && time / songLenght;
   const togglePlay = playing ? stop : play;
+  let audioElem: HTMLAudioElement;
   const audioElementRef = (elem: HTMLAudioElement) => {
+    audioElem = elem;
     return elem && (playing ? elem.play() : elem.pause());
   };
   const timeUpdate = (ev: React.SyntheticEvent<HTMLAudioElement>) => {
@@ -51,6 +53,22 @@ export const Player: StatelessComponent<Props> =  (props) => {
   const loadedMetadata = (ev: React.SyntheticEvent<HTMLAudioElement>) => {
     setSongLenght(ev.currentTarget.duration);
   };
+  let newCurrentTime = time;
+  // tslint:disable-next-line:no-any
+  const seek = (ev: any, newPosition: number) => {
+    newCurrentTime = songLenght * newPosition;
+  };
+  const setNewPosition = () => {
+    audioElem.currentTime = newCurrentTime;
+    if ( newCurrentTime < songLenght) {
+      setTime(newCurrentTime);
+    }
+  };
+  const playStopButon = (
+    <FloatingActionButton>
+      {playing ? 'stop' : 'play'}
+    </FloatingActionButton>
+  );
   return (
     <Paper style={paperStyle} zDepth={1} rounded={false}>
     {
@@ -59,8 +77,12 @@ export const Player: StatelessComponent<Props> =  (props) => {
           <div>
             <Subheader>{song.title} : {song.author}</Subheader>
               <ListItem
-                leftAvatar={<span onClick={togglePlay}>{playing ? 'stop' : 'play'}</span>}
-                primaryText={<Slider value={playTimeRatio} />}
+                leftAvatar={<span onClick={togglePlay}>{playStopButon}</span>}
+                primaryText={<Slider
+                  value={playTimeRatio}
+                  onDragStop={setNewPosition}
+                  onChange={seek}
+                />}
                 rightAvatar={<span>{formattedTime}</span>}
               />
             <audio
