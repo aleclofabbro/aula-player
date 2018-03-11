@@ -1,15 +1,33 @@
 import { StatelessComponent } from 'react';
-import { Library } from './Library';
-import { Player, Props as PlayerProps } from './Player';
+import {
+  Library,
+  Props as LibraryProps,
+  State as LibraryState,
+  Actions as LibraryActions
+} from './Library';
+import {
+  Player,
+  Props as PlayerProps,
+  State as PlayerState,
+  Actions as PlayerActions
+} from './Player';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { Song } from '../redux-engine/src/types/models';
 import * as React from 'react';
 import { RefreshIndicator, RefreshIndicatorProps } from 'material-ui';
-export interface Props {
-  songs: Song[];
+
+export interface State {
   loadingLib: boolean;
-  player: PlayerProps;
+  library: LibraryState;
+  player: PlayerState;
 }
+
+export interface Actions {
+  library: LibraryActions;
+  player: PlayerActions;
+}
+
+export type Props = Actions & State;
 
 export const App: StatelessComponent<Props> =  (props) => {
   // const style = {
@@ -31,7 +49,7 @@ export const App: StatelessComponent<Props> =  (props) => {
     <MuiThemeProvider>
       <div>
         <RefreshIndicator {...refreshProps}/>
-        <Library songs={props.songs}/>
+        <Library {...props.library}/>
         <Player {...props.player} />
       </div>
     </MuiThemeProvider>
