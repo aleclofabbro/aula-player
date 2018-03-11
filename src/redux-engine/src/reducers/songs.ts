@@ -15,15 +15,18 @@ const init: SongsState = {
   selected: null,
 };
 
-const getSongById = (library: Song[], id: string) =>
-  library.find(song => song.id === id) || null;
+const getSongBySelection = (library: Song[], idOrSong: Song['id'] | Song) => {
+  return typeof idOrSong === 'string'
+    ? library.find(song => song.id === idOrSong) || null
+    : idOrSong;
+};
 
 export const songs: Reducer<SongsState> = (state: SongsState = init, action: Actions) => {
   switch (action.type) {
     case 'SongLibrary':
       return { ...state, library: action.payload };
     case 'SelectSong':
-      return { ...state, selected: getSongById(state.library, action.payload) };
+      return { ...state, selected: getSongBySelection(state.library, action.payload) };
     default:
       return state;
   }

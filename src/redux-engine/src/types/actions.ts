@@ -13,7 +13,9 @@ export type LoadSongLibraryDone = Action<'LoadSongLibraryDone'>;
 export type LoadSongLibrary = Action<'LoadSongLibrary'>;
 export type SongLibrary = ActionP<'SongLibrary', Song[]>;
 
-export type SelectSong = ActionP<'SelectSong', Song['id']>;
+export type SelectSong = ActionP<'SelectSong', Song | Song['id']>;
 
 export type Play = Action<'Play'>;
 export type Stop = Action<'Stop'>;
+export type SetPlayTime = ActionP<'SetPlayTime', number>;
+export type SetSongLenght = ActionP<'SetSongLenght', number>;

@@ -1,19 +1,25 @@
 import { Reducer } from 'redux';
-import { LoadSongLibrary, LoadSongLibraryDone, Play, Stop } from '../types/actions';
+import { LoadSongLibrary, LoadSongLibraryDone, Play, SetPlayTime, SetSongLenght, Stop } from '../types/actions';
 
 export interface StatusState {
   songPlaying: boolean;
   loadingLibrary: boolean;
+  playTime: number;
+  songLenght: number;
 }
 type Actions =
   | Play
   | Stop
   | LoadSongLibrary
-  | LoadSongLibraryDone;
+  | LoadSongLibraryDone
+  | SetPlayTime
+  | SetSongLenght;
 
 const init: StatusState = {
   songPlaying: false,
-  loadingLibrary: false
+  playTime: 0,
+  loadingLibrary: false,
+  songLenght: 0
 };
 
 export const status: Reducer<StatusState> = (state: StatusState = init, action: Actions) => {
@@ -26,6 +32,10 @@ export const status: Reducer<StatusState> = (state: StatusState = init, action: 
       return { ...state, loadingLibrary: true };
     case 'LoadSongLibraryDone':
       return { ...state, loadingLibrary: false };
+    case 'SetPlayTime':
+      return { ...state, playTime: action.payload };
+    case 'SetSongLenght':
+      return { ...state, songLenght: action.payload };
     default:
       return state;
   }
