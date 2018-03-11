@@ -5,24 +5,24 @@ import { Provider } from 'react-redux';
 import { App } from './containers/App';
 import registerServiceWorker from './registerServiceWorker';
 
-// tslint:disable-next-line:no-console
-console.log(storeFactory);
 const store = storeFactory({
   songLibraryProvider: () =>
-    Promise.resolve([
+    new Promise((resolve) => setTimeout(() => resolve([
       {
         id: 'id1',
         title: 'title1',
+        imgUrl: 'imgUrl1',
         author: 'author1',
-        url: 'url1'
+        songUrl: 'songUrl1'
       },
       {
         id: 'id2',
         title: 'title2',
+        imgUrl: 'imgUrl2',
         author: 'author2',
-        url: 'url2'
+        songUrl: 'songUrl2'
       }
-    ])
+    ]),                                 2000))
 });
 
 ReactDOM.render(
@@ -32,3 +32,8 @@ ReactDOM.render(
   document.getElementById('root') as HTMLElement
 );
 registerServiceWorker();
+
+store.dispatch({type: 'LoadSongLibrary'});
+
+// tslint:disable-next-line:no-any
+(window as any).store = store;

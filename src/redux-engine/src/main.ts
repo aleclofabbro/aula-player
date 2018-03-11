@@ -6,12 +6,6 @@ export interface Config {
   songLibraryProvider: SongLibraryProvider;
 }
 export const storeFactory = (config: Config): Store<State> => {
-  // tslint:disable-next-line:no-console
-  console.log(createStore);
-  // tslint:disable-next-line:no-console
-  console.log(loadSongLibrary);
-  // tslint:disable-next-line:no-console
-  console.log(aulaPlayerApp);
   const loadSongLibraryMW = loadSongLibrary(config.songLibraryProvider);
 
   return createStore<State>(
