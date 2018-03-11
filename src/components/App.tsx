@@ -1,18 +1,15 @@
 import { StatelessComponent } from 'react';
 import {
   Library,
-  Props as LibraryProps,
   State as LibraryState,
   Actions as LibraryActions
 } from './Library';
 import {
   Player,
-  Props as PlayerProps,
   State as PlayerState,
   Actions as PlayerActions
 } from './Player';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { Song } from '../redux-engine/src/types/models';
 import * as React from 'react';
 import { RefreshIndicator, RefreshIndicatorProps } from 'material-ui';
 
