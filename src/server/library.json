@@ -2,14 +2,12 @@
   {
     "id": "id1",
     "title": "symphony40",
-    "imgUrl": "imgUrl1",
     "author": "mozart",
     "songUrl": "https://www.mfiles.co.uk/mp3-downloads/mozart-symphony40-1.mp3"
   },
   {
     "id": "id2",
     "title": "Symphony5",
-    "imgUrl": "imgUrl2",
     "author": "Beethoven",
     "songUrl": "https://www.mfiles.co.uk/mp3-downloads/Beethoven-Symphony5-1.mp3"
   }

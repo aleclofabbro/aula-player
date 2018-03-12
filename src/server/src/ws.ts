@@ -1,25 +1,29 @@
 // tslint:disable-next-line:no-require-imports no-var-requires
-const socketIo: SocketIOStatic = require('socket.io');
-type ClientInfo = {
+import * as socketIo from 'socket.io';
+
+interface ClientInfo {
   listensSong: string | null;
-  socket: SocketIO.Socket;
-};
+  // tslint:disable-next-line:no-any
+  socket: any;
+}
 
 // tslint:disable-next-line:no-any
-export const ws = (app: any) => {
-  const io = socketIo(app);
+export const ws = (server: any) => {
+  const io = socketIo(server);
   let clients: ClientInfo[] = [];
-  const broadcastNowListenings = () => {
-      const newListenings = clients
-        .map(client => client.listensSong)
-        .filter<string>((id): id is string => typeof id === 'string');
-      io.sockets.emit('client-listening', newListenings);
+  const broadcastNowListenings = (toSocket?: SocketIO.Socket) => {
+    const newListenings = clients
+      .map(client => client.listensSong)
+      .filter<string>((id): id is string => typeof id === 'string');
+    (toSocket || io.sockets).emit('clients-listening', newListenings);
   };
-  io.on('connection', (socket) => {
+  // tslint:disable-next-line:no-any
+  io.on('connection', (socket: any) => {
     clients = clients.concat({
       socket,
       listensSong: null
     });
+    broadcastNowListenings(socket);
     socket.on('listening', (songId: string | null) => {
       clients = clients.map(client =>
         client.socket === socket
@@ -37,61 +41,3 @@ export const ws = (app: any) => {
     });
   });
 };
-
-// io.on('connection', function(socket) {
-//   var addedUser = false;
-
-//   // when the client emits 'new message', this listens and executes
-//   socket.on('new message', function(data) {
-//     // we tell the client to execute 'new message'
-//     socket.broadcast.emit('new message', {
-//       username: socket.username,
-//       message: data
-//     });
-//   });
-
-//   // when the client emits 'add user', this listens and executes
-//   socket.on('add user', function(username) {
-//     if (addedUser) return;
-
-//     // we store the username in the socket session for this client
-//     socket.username = username;
-//     ++numUsers;
-//     addedUser = true;
-//     socket.emit('login', {
-//       numUsers: numUsers
-//     });
-//     // echo globally (all clients) that a person has connected
-//     socket.broadcast.emit('user joined', {
-//       username: socket.username,
-//       numUsers: numUsers
-//     });
-//   });
-
-//   // when the client emits 'typing', we broadcast it to others
-//   socket.on('typing', function() {
-//     socket.broadcast.emit('typing', {
-//       username: socket.username
-//     });
-//   });
-
-//   // when the client emits 'stop typing', we broadcast it to others
-//   socket.on('stop typing', function() {
-//     socket.broadcast.emit('stop typing', {
-//       username: socket.username
-//     });
-//   });
-
-//   // when the user disconnects.. perform this
-//   socket.on('disconnect', function() {
-//     if (addedUser) {
-//       --numUsers;
-
-//       // echo globally that this client has left
-//       socket.broadcast.emit('user left', {
-//         username: socket.username,
-//         numUsers: numUsers
-//       });
-//     }
-//   });
-// });
