@@ -54,3 +54,7 @@ export const setSongLenght = (time: number): Actions.SetSongLenght => {
     payload: time
   };
 };
+
+export const clientsListenings = (listenings: Song['id'][]): Actions.ClientsListenings => {
+  return { type: 'ClientsListenings', payload: listenings };
+};

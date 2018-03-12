@@ -1,16 +1,22 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const init = {
+var tslib_1 = require("tslib");
+var init = {
     library: [],
     selected: null,
 };
-const getSongById = (library, id) => library.find(song => song.id === id) || null;
-exports.songs = (state = init, action) => {
+var getSongBySelection = function (library, idOrSong) {
+    return typeof idOrSong === 'string'
+        ? library.find(function (song) { return song.id === idOrSong; }) || null
+        : idOrSong;
+};
+exports.songs = function (state, action) {
+    if (state === void 0) { state = init; }
     switch (action.type) {
         case 'SongLibrary':
-            return Object.assign({}, state, { library: action.payload });
+            return tslib_1.__assign({}, state, { library: action.payload });
         case 'SelectSong':
-            return Object.assign({}, state, { selected: getSongById(state.library, action.payload) });
+            return tslib_1.__assign({}, state, { selected: getSongBySelection(state.library, action.payload) });
         default:
             return state;
     }
