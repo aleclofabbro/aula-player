@@ -9,6 +9,7 @@ const mapStateToProps: MapStateToProps<State, {}, GlobalState> = state => {
     library: {
       songs: state.songs.library,
       currentSongId: selectedSongId && selectedSongId.id,
+      clientsListenings: state.songs.clientsListenings
     },
     player: {
       playing: state.status.songPlaying,

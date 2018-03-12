@@ -4,25 +4,30 @@ import { storeFactory } from './redux-engine/src/main';
 import { Provider } from 'react-redux';
 import { App } from './containers/App';
 import registerServiceWorker from './registerServiceWorker';
+import * as socketIo from 'socket.io-client';
+
+/**
+ * IO
+ */
+
+const serverUrl = 'http://localhost:8080';
+const songLibraryProvider = () =>
+  fetch(`${serverUrl}/library`)
+    .then(resp => resp.json());
+
+const socket = socketIo(serverUrl);
+const emitListening = (song: string | null) => socket.emit('listening', song);
+const subscribeClientsListening = (subscriber: (listenings: string[]) => void) =>
+  socket.on('clients-listening', subscriber);
+
+/**
+ * end IO
+ */
 
 const store = storeFactory({
-  songLibraryProvider: () =>
-    new Promise((resolve) => setTimeout(() => resolve([
-      {
-        id: 'id1',
-        title: 'symphony40',
-        imgUrl: 'imgUrl1',
-        author: 'mozart',
-        songUrl: 'https://www.mfiles.co.uk/mp3-downloads/mozart-symphony40-1.mp3'
-      },
-      {
-        id: 'id2',
-        title: 'Symphony5',
-        imgUrl: 'imgUrl2',
-        author: 'Beethoven',
-        songUrl: 'https://www.mfiles.co.uk/mp3-downloads/Beethoven-Symphony5-1.mp3'
-      }
-    ]),                                 500))
+  songLibraryProvider,
+  emitListening,
+  subscribeClientsListening
 });
 
 ReactDOM.render(

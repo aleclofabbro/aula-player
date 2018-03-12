@@ -19,3 +19,5 @@ export type Play = Action<'Play'>;
 export type Stop = Action<'Stop'>;
 export type SetPlayTime = ActionP<'SetPlayTime', number>;
 export type SetSongLenght = ActionP<'SetSongLenght', number>;
+
+export type ClientsListenings = ActionP<'ClientsListenings', Song['id'][]>;

@@ -1,12 +1,13 @@
 import { StatelessComponent } from 'react';
-import Avatar from 'material-ui/Avatar';
 import { List, ListItem } from 'material-ui/List';
 import Subheader from 'material-ui/Subheader';
 import { Song } from '../redux-engine/src/types/models';
 import * as React from 'react';
+import { Badge } from 'material-ui';
 export interface State {
   songs: Song[];
   currentSongId: Song['id'] | null;
+  clientsListenings: Song['id'][];
 }
 
 export interface Actions {
@@ -24,15 +25,23 @@ export const Library: StatelessComponent<Props> =  (props) => {
   return (
     <List>
       <Subheader>Songs</Subheader>
-      {props.songs.map(song => (
-        <ListItem
-          onClick={() => selectSong(song.id)}
-          key={song.id}
-          leftAvatar={<Avatar src={song.imgUrl} />}
-          primaryText={`${song.title}`}
-          rightIcon={<span>{song.author}</span>}
-        />
-      ))}
+      {props.songs.map(song => {
+        const listenings = props.clientsListenings.filter(id => id === song.id).length;
+        return (
+          <ListItem
+            onClick={() => selectSong(song.id)}
+            style={{padding: '0 20px'}}
+            key={song.id}
+            rightIcon={<Badge
+              badgeContent={<span title={'users listening to this song'}>
+                {listenings}
+              </span>}
+            />}
+            primaryText={`${song.title}`}
+            secondaryText={song.author}
+          />
+        );
+      })}
     </List>
   );
 };

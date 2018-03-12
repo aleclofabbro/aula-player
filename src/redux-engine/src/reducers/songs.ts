@@ -1,18 +1,21 @@
 import { Reducer } from 'redux';
-import { SelectSong, SongLibrary } from '../types/actions';
+import { ClientsListenings, SelectSong, SongLibrary } from '../types/actions';
 import { Song } from './../types/models';
 
 export interface SongsState {
   library: Song[];
   selected: Song | null;
+  clientsListenings: Song['id'][];
 }
 type Actions =
   | SongLibrary
-  | SelectSong;
+  | SelectSong
+  | ClientsListenings;
 
 const init: SongsState = {
-  library: [] as Song[],
+  library: [],
   selected: null,
+  clientsListenings: []
 };
 
 const getSongBySelection = (library: Song[], idOrSong: Song['id'] | Song) => {
@@ -27,6 +30,8 @@ export const songs: Reducer<SongsState> = (state: SongsState = init, action: Act
       return { ...state, library: action.payload };
     case 'SelectSong':
       return { ...state, selected: getSongBySelection(state.library, action.payload) };
+    case 'ClientsListenings':
+      return { ...state, clientsListenings: action.payload };
     default:
       return state;
   }
